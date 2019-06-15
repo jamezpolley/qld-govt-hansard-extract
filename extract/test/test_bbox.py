@@ -10,7 +10,7 @@ class TestBboxClass(BBoxMixin):
 
 def test_bbox_mixin():
     t = TestBboxClass()
-    bb = t.bbox()
+    bb = t.bbox
     assert bb.x0 == 459.84
     assert bb.y0 == 753.697
     assert bb.x1 == 462.075
