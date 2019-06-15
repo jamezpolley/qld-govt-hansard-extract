@@ -46,6 +46,11 @@ class BBoxMixin(object):
 
     @property
     def bbox(self):
+        #Check if we've already done the work
+        if hasattr(self, "_bbox"):
+            return self._bbox
+        
+        #Nope. Oh well. Let's get it done.
         points = self.attr['bbox'].split(",")
         #box = BBox(points)
         #           ^^^^^^^
@@ -54,4 +59,14 @@ class BBoxMixin(object):
         #          ^^^^^^^
         # Unpacks the list called points into its individual values, then passes these as individual
         # arguments into the constructor
-        return box
+
+        #Don't want to do this malarkey again.
+        self._bbox = box
+        return self._bbox
+
+        # Alternatively:
+        # if not hasattr(self, "_bbox"):
+        #    ... do the work ....
+        #    self._bbox = box
+        #
+        # return self._bbox
