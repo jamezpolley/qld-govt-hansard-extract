@@ -39,8 +39,12 @@ class BBoxMixin(object):
         self.attr['bbox']. The coordinates are assumed to be in the form
         of a comma-seperated string like so: "x0, y0, x1, y1"
 
-    Adds a bbox() method which returns a BBox object."""
+    Adds a bbox read-only bbox property.
+    
+    (See https://docs.python.org/3/library/functions.html#property for more about
+    properties, and a description of how to make this property read/write if desired)."""
 
+    @property
     def bbox(self):
         points = self.attr['bbox'].split(",")
         #box = BBox(points)
