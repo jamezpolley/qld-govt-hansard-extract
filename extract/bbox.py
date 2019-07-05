@@ -1,35 +1,16 @@
+from .coordinate import Coordinate
+
+
 class BBox(object):
     """Represents a bounding box."""
 
-    def __init__(self, x0 = 0, y0 = 0, x1 = 0, y1 = 0):
+    def __init__(self, upper_left_coordinate, lower_right_coordinate):
         """Create a BBox from two coordinate pairs.
-
-        Keyword arguments:
-        x0, y0 -- Coordinates for the first point.
-        x1, y1 -- Coordinates for the second point.
-
-        All coordinates are cast to floats, which potentially introduces a loss of precision.
-        TODO: investigate whether it would make more sense to use decimal.Decimal to preserve precision
-
         Returns:
         BBox object
-
-        This docstring is based on (PEP-257)[https://www.python.org/dev/peps/pep-0257/].
-
-        Curious about what a docstring is for? Try this:
-
-        $ python
-        Python 3.7.3 (default, Apr  3 2019, 05:39:12) 
-        [GCC 8.3.0] on linux
-        Type "help", "copyright", "credits" or "license" for more information.
-        >>> import extract.bbox
-        >>> help(extract.bbox.BBox)
-        >>> help(extract.bbox.BBoxMixin)
         """
-        self.x0 = float(x0)
-        self.y0 = float(y0)
-        self.x1 = float(x1)
-        self.y1 = float(y1)
+        self.upper_left_coordinate = upper_left_coordinate
+        self.lower_right_coordinate = lower_right_coordinate
 
 
 class BBoxMixin(object):
@@ -47,11 +28,11 @@ class BBoxMixin(object):
     @property
     def bbox(self):
         points = self.attr['bbox'].split(",")
-        #box = BBox(points)
-        #           ^^^^^^^
-        # Creates a BBox object and passes a single argument, a list, which gets assigned to x0  
-        box = BBox(*points)
-        #          ^^^^^^^
-        # Unpacks the list called points into its individual values, then passes these as individual
-        # arguments into the constructor
+
+        # All coordinates are cast to floats, which potentially introduces a loss of precision.
+        # TODO: investigate whether it would make more sense to use decimal.Decimal to preserve precision
+
+        upper_left_coordinate = Coordinate(float(points[0]), float(points[1]))
+        lower_right_coordinate = Coordinate(float(points[2]), float(points[3]))
+        box = BBox(upper_left_coordinate, lower_right_coordinate)
         return box
