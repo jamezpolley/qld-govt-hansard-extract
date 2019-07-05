@@ -28,7 +28,23 @@ def test_get_text_line_from_xml_element():
 
 def test_text_line_compact_tests():
     x = get_text_line_from_xml_element(ET.fromstring(s))
+
     x.compact_texts()
+
     assert len(x.texts) == 2
+
+    assert x.texts[0].attr['font'] == 'Arial-BoldMT'
+    assert x.texts[0].attr['size'] == '11.513'
+    assert x.texts[0].bbox.upper_left_coordinate.x == 459.840
+    assert x.texts[0].bbox.upper_left_coordinate.y == 753.697
+    assert x.texts[0].bbox.lower_right_coordinate.x == 480.797
+    assert x.texts[0].bbox.lower_right_coordinate.y == 765.210
     assert x.texts[0].contents == 'ISSN '
+
+    assert x.texts[1].attr['font'] == 'ArialMT'
+    assert x.texts[1].attr['size'] == '10.975'
+    assert x.texts[1].bbox.upper_left_coordinate.x == 480.840
+    assert x.texts[1].bbox.upper_left_coordinate.y == 754.107
+    assert x.texts[1].bbox.lower_right_coordinate.x == 521.235
+    assert x.texts[1].bbox.lower_right_coordinate.y == 765.082
     assert x.texts[1].contents == '1322-0330 '

@@ -20,8 +20,16 @@ def main():
         tb = get_text_box_from_xml_element(textbox)
         for text_line in tb.text_lines:
             text_line.compact_texts()
+            t = ''
             for text in text_line.texts:
-                print(text.contents)
+                if text.is_blank_node():
+                    continue
+                t += text.contents
+
+            if t.strip() == '':
+                continue
+
+            print(t)
 
     pass
 

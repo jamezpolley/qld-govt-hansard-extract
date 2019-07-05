@@ -13,7 +13,15 @@ def upper_left_most_coordinate(coordinates):
         xs.append(coord.x)
         ys.append(coord.y)
 
-    return Coordinate(min(xs), max(ys))
+    x = 0
+    if len(xs) > 0:
+        x = min(xs)
+
+    y = 0
+    if len(ys) > 0:
+        y = max(ys)
+
+    return Coordinate(x, y)
 
 
 def lower_right_most_coordinate(coordinates):
@@ -23,4 +31,12 @@ def lower_right_most_coordinate(coordinates):
         xs.append(coord.x)
         ys.append(coord.y)
 
-    return Coordinate(max(xs), min(ys))
+    x = 0
+    if len(xs) > 0:
+        x = max(xs)
+
+    y = 0
+    if len(ys) > 0:
+        y = min(ys)
+
+    return Coordinate(x, y)

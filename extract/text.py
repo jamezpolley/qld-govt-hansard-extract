@@ -1,15 +1,13 @@
 from .bbox import BBoxMixin
 
-
 class Text(BBoxMixin, object):
     """A class containing information from a <text> node"""
-    attr = {}
-
-    contents = ''
-
     def __init__(self):
         self.attr = {}
         self.contents = ''
+
+    def is_blank_node(self):
+        return self.contents.strip() == ''
 
 
 def get_text_from_xml_element(xml_element):

@@ -27,6 +27,9 @@ class BBoxMixin(object):
 
     @property
     def bbox(self):
+        if 'bbox' not in self.attr:
+            return
+
         points = self.attr['bbox'].split(",")
 
         # All coordinates are cast to floats, which potentially introduces a loss of precision.
@@ -34,5 +37,4 @@ class BBoxMixin(object):
 
         upper_left_coordinate = Coordinate(float(points[0]), float(points[1]))
         lower_right_coordinate = Coordinate(float(points[2]), float(points[3]))
-        box = BBox(upper_left_coordinate, lower_right_coordinate)
-        return box
+        return BBox(upper_left_coordinate, lower_right_coordinate)
