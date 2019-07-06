@@ -2,7 +2,7 @@ from .coordinate import lower_right_most_coordinate, upper_left_most_coordinate
 from .bbox import BBox
 
 
-def bbox_merge(*bboxes):
+def bbox_merge(bboxes):
     upper_left_coordinates = []
     lower_right_coordinates = []
     for bbox in bboxes:

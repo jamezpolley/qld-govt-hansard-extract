@@ -1,5 +1,6 @@
 from .bbox import BBoxMixin
 
+
 class Text(BBoxMixin, object):
     """A class containing information from a <text> node"""
     def __init__(self):

@@ -26,7 +26,7 @@ class TextLine(object):
                 # New style of text, finish up last iteration
                 # Make new bbox
                 if len(bboxes) > 0:
-                    bbox = bbox_merge(*bboxes)
+                    bbox = bbox_merge(bboxes)
                     ctext.attr['bbox'] = "{},{},{},{}".format(
                         bbox.upper_left_coordinate.x,
                         bbox.upper_left_coordinate.y,

@@ -18,7 +18,7 @@ def test_bbox_merge():
         BBox(Coordinate(518.870,788.160),Coordinate(524.408,801.755)),
         BBox(Coordinate(524.519,788.160),Coordinate(527.287,801.755)),
     ]
-    merged_bbox = bbox_merge(*bboxes)
+    merged_bbox = bbox_merge(bboxes)
 
     assert merged_bbox.upper_left_coordinate.x == 466.681
     assert merged_bbox.upper_left_coordinate.y == 788.160
