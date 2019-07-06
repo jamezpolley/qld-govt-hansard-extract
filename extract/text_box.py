@@ -7,6 +7,9 @@ class TextBox:
 
     text_lines = []
 
+    def __iter__(self):
+        return iter(self.text_lines)
+
     def add_text_line_child(self, text_line):
         self.text_lines.append(text_line)
 

@@ -18,10 +18,10 @@ def main():
     xml_elements = root.findall('.//textbox')
     for xml_element in xml_elements:
         tb = get_text_box_from_xml_element(xml_element)
-        for text_line in tb.text_lines:
+        for text_line in tb:
             text_line.compact_texts()
             t = ''
-            for text in text_line.texts:
+            for text in text_line:
                 if not text.is_blank_node():
                     t += text.contents
 

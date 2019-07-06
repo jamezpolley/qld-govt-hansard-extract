@@ -10,6 +10,9 @@ class TextLine(object):
         self.texts = []
         self.attr = {}
 
+    def __iter__(self):
+        return iter(self.texts)
+
     def add_text_child(self, text):
         self.texts.append(copy.deepcopy(text))
 
@@ -18,7 +21,7 @@ class TextLine(object):
         merged_texts = []
         ctext = Text()
         bboxes = []
-        for text in self.texts:
+        for text in self:
             if text_attrs_styles_are_equal(copy.copy(ctext.attr), copy.copy(text.attr)) is False:
                 # New style of text, finish up last iteration
                 # Make new bbox
