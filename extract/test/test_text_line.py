@@ -1,5 +1,6 @@
 from extract.text_line import get_text_line_from_xml_element
 import xml.etree.ElementTree as ET
+import unittest
 
 s = """<textline bbox="459.840,753.697,521.235,765.210">
 <text font="Arial-BoldMT" bbox="459.840,753.697,462.075,765.210" colourspace="ICCBased" ncolour="[0]" size="11.513">I</text>
@@ -21,30 +22,81 @@ s = """<textline bbox="459.840,753.697,521.235,765.210">
 </text>
 </textline>"""
 
-def test_get_text_line_from_xml_element():
-    t = get_text_line_from_xml_element(ET.fromstring(s))
-    assert len(t.texts) == 16
+
+class TestGetTextLineFromXmlElement(unittest.TestCase):
+    def setUp(self):
+        self.text_line = get_text_line_from_xml_element(ET.fromstring(s))
+
+    def test_correct_number_of_texts(self):
+        self.assertEqual(len(self.text_line.texts), 16)
+
+    # def test_retains_bbox(self):
+    #     assert len(self.text_line.bbox) == 16
 
 
-def test_text_line_compact_tests():
-    x = get_text_line_from_xml_element(ET.fromstring(s))
+class TestTextLineCompactTexts(unittest.TestCase):
+    def setUp(self):
+        # todo build a text_line object manually so there is no dependency on get_text_line_from_xml_element
+        self.compacted_text_line = get_text_line_from_xml_element(ET.fromstring(s))
+        self.compacted_text_line.compact_texts()
 
-    x.compact_texts()
+    def test_correct_number_of_texts(self):
+        self.assertEqual(len(self.compacted_text_line.texts), 2)
 
-    assert len(x.texts) == 2
+    expected_values = [
+        {
+            'node': 0,
+            'font': 'Arial-BoldMT',
+            'size': '11.513',
+            'upper_left_coordinate_x': 459.840,
+            'upper_left_coordinate_y':  753.697,
+            'lower_right_coordinate_x': 480.797,
+            'lower_right_coordinate_y': 765.210,
+            'contents': 'ISSN ',
+        },
+        {
+            'node': 1,
+            'font': 'ArialMT',
+            'size': '10.975',
+            'upper_left_coordinate_x': 480.840,
+            'upper_left_coordinate_y':  754.107,
+            'lower_right_coordinate_x': 521.235,
+            'lower_right_coordinate_y': 765.082,
+            'contents': '1322-0330 ',
+        }
+    ]
 
-    assert x.texts[0].attr['font'] == 'Arial-BoldMT'
-    assert x.texts[0].attr['size'] == '11.513'
-    assert x.texts[0].bbox.upper_left_coordinate.x == 459.840
-    assert x.texts[0].bbox.upper_left_coordinate.y == 753.697
-    assert x.texts[0].bbox.lower_right_coordinate.x == 480.797
-    assert x.texts[0].bbox.lower_right_coordinate.y == 765.210
-    assert x.texts[0].contents == 'ISSN '
+    def test_text_nodes_fonts_are_retained(self):
+        for nodes_expected_values in self.expected_values:
+            text_node = self.compacted_text_line.texts[nodes_expected_values['node']]
+            self.assertEqual(text_node.attr['font'], nodes_expected_values['font'])
 
-    assert x.texts[1].attr['font'] == 'ArialMT'
-    assert x.texts[1].attr['size'] == '10.975'
-    assert x.texts[1].bbox.upper_left_coordinate.x == 480.840
-    assert x.texts[1].bbox.upper_left_coordinate.y == 754.107
-    assert x.texts[1].bbox.lower_right_coordinate.x == 521.235
-    assert x.texts[1].bbox.lower_right_coordinate.y == 765.082
-    assert x.texts[1].contents == '1322-0330 '
+    def test_text_nodes_font_sizes_are_retained(self):
+        for nodes_expected_values in self.expected_values:
+            text_node = self.compacted_text_line.texts[nodes_expected_values['node']]
+            self.assertEqual(text_node.attr['size'], nodes_expected_values['size'])
+
+    def test_text_nodes_contents_are_merged(self):
+        for nodes_expected_values in self.expected_values:
+            text_node = self.compacted_text_line.texts[nodes_expected_values['node']]
+            self.assertEqual(text_node.contents, nodes_expected_values['contents'])
+
+    def test_text_nodes_bboxes_are_merged_upper_left_x(self):
+        for nodes_expected_values in self.expected_values:
+            text_node = self.compacted_text_line.texts[nodes_expected_values['node']]
+            self.assertEqual(text_node.bbox.upper_left_coordinate.x, nodes_expected_values['upper_left_coordinate_x'])
+
+    def test_text_nodes_bboxes_are_merged_upper_left_y(self):
+        for nodes_expected_values in self.expected_values:
+            text_node = self.compacted_text_line.texts[nodes_expected_values['node']]
+            self.assertEqual(text_node.bbox.upper_left_coordinate.y, nodes_expected_values['upper_left_coordinate_y'])
+
+    def test_text_nodes_bboxes_are_merged_lower_right_x(self):
+        for nodes_expected_values in self.expected_values:
+            text_node = self.compacted_text_line.texts[nodes_expected_values['node']]
+            self.assertEqual(text_node.bbox.lower_right_coordinate.x, nodes_expected_values['lower_right_coordinate_x'])
+
+    def test_text_nodes_bboxes_are_merged_lower_right_y(self):
+        for nodes_expected_values in self.expected_values:
+            text_node = self.compacted_text_line.texts[nodes_expected_values['node']]
+            self.assertEqual(text_node.bbox.lower_right_coordinate.y, nodes_expected_values['lower_right_coordinate_y'])
