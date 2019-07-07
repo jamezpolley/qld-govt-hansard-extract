@@ -15,15 +15,18 @@ def main():
     # todo: iterate by page, have some mechanism to identify text boxes based on positional details and/or style:
     #  - to ignore header and footer content
     #  - to identify headers
-    textboxes = root.findall('.//textbox')
-    for textbox in textboxes:
-        tb = get_text_box_from_xml_element(textbox)
-        for text_line in tb.text_lines:
+    xml_elements = root.findall('.//textbox')
+    for xml_element in xml_elements:
+        tb = get_text_box_from_xml_element(xml_element)
+        for text_line in tb:
             text_line.compact_texts()
-            for text in text_line.texts:
-                print(text.contents)
+            t = ''
+            for text in text_line:
+                if not text.is_blank_node():
+                    t += text.contents
 
-    pass
+            if t.strip():
+                print(t)
 
 
 if __name__ == '__main__':
