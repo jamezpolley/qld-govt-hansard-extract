@@ -1,14 +1,21 @@
 from .coordinate import Coordinate
 
 
+class BBoxRequiresTwoCoordinates(Exception):
+    pass
+
+
 class BBox(object):
     """Represents a bounding box."""
 
-    def __init__(self, upper_left_coordinate, lower_right_coordinate):
+    def __init__(self, upper_left_coordinate=None, lower_right_coordinate=None):
         """Create a BBox from two coordinate pairs.
         Returns:
         BBox object
         """
+        if not upper_left_coordinate or not lower_right_coordinate:
+            raise BBoxRequiresTwoCoordinates
+
         self.upper_left_coordinate = upper_left_coordinate
         self.lower_right_coordinate = lower_right_coordinate
 
@@ -28,7 +35,7 @@ class BBoxMixin(object):
     @property
     def bbox(self):
         if 'bbox' not in self.attr:
-            return
+            return None
 
         points = self.attr['bbox'].split(",")
 

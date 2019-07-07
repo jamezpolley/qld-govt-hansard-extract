@@ -40,7 +40,10 @@ class TextLine(object):
                 ctext = Text() # reset ctext
                 ctext.attr = text.attr # Set the ctext attributes to be the current text node (copying styles etc)
 
-            bboxes.append(text.bbox)
+            # Not all text nodes have a bounding box
+            if text.bbox:
+                bboxes.append(text.bbox)
+
             ctext.contents += text.contents
 
         if len(merged_texts) > 0:
