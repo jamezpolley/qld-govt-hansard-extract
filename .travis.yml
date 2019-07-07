@@ -4,6 +4,6 @@ python:
 install:
   - 'pip install pipenv'
   - 'pipenv install'
-script: 'python -m pytest --cov=pyblizzard tests --cov-report=xml'
+script: 'pipenv run coverage run -m unittest discover -s . --verbose'
 after_success:
-  - 'python-codacy-coverage -r coverage.xml'
+  coveralls
