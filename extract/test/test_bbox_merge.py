@@ -6,11 +6,12 @@ import unittest
 
 class TestBBoxMergeMergesCoordinatesCorrectly(unittest.TestCase):
     def setUp(self):
-        bboxes = [
+        bboxes = (
             BBox(Coordinate(466.681, 770.160), Coordinate(472.219, 801.755)),
             BBox(Coordinate(472.199, 771.160), Coordinate(477.736, 100.755)),
             BBox(Coordinate(524.519, 788.160), Coordinate(527.287, 70.755)),
-        ]
+        )
+
         self.merged_bbox = bbox_merge(bboxes)
 
     def test_upper_left_x(self):

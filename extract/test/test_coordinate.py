@@ -29,7 +29,7 @@ class TestUpperLeftMostCoordinate(unittest.TestCase):
 
 class TestLowerRightMostCoordinate(unittest.TestCase):
     def setUp(self):
-        coordinates = [
+        coordinates = (
             Coordinate(472.219, 801.755),
             Coordinate(477.736, 801.755),
             Coordinate(480.485, 801.755),
@@ -42,7 +42,7 @@ class TestLowerRightMostCoordinate(unittest.TestCase):
             Coordinate(518.769, 801.755),
             Coordinate(524.408, 801.755),
             Coordinate(527.287, 801.755),
-        ]
+        )
         self.coord = lower_right_most_coordinate(coordinates)
 
     def test_x(self):
